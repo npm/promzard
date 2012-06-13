@@ -5,7 +5,6 @@ var file = path.resolve(__dirname, 'substack.json')
 var ctx = { basename: path.basename(path.dirname(file)) }
 
 pz(file, ctx, function (er, res) {
-  console.error('in cb', er, res)
   if (er)
     throw er
   console.log(JSON.stringify(res, null, 2))

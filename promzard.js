@@ -168,6 +168,6 @@ PromZard.prototype.prompt = function (pdt, cb) {
       return cb(er, data ? tx(data) : null)
     }}(cb)
 
-  read({ prompt: prompt, default: def }, cb)
+  read({ prompt: prompt + ': ' , default: def }, cb)
 }
 
