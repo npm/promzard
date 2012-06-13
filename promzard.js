@@ -1,4 +1,5 @@
 module.exports = promzard
+promzard.PromZard = PromZard
 
 var fs = require('fs')
 var vm = require('vm')
@@ -145,6 +146,10 @@ PromZard.prototype.walk = function (o, cb) {
         // default to the key
         if (undefined === prompt[0])
           prompt[0] = k
+
+        // default to the ctx value, if there is one
+        if (undefined === prompt[1])
+          prompt[1] = this.ctx[k]
 
         return this.prompt(prompt, function (er, res) {
           o[k] = res
