@@ -7,5 +7,5 @@ var ctx = { basename: path.basename(path.dirname(file)) }
 pz(file, ctx, function (er, res) {
   if (er)
     throw er
-  console.log(JSON.stringify(res, null, 2))
+  console.error(JSON.stringify(res, null, 2))
 })
