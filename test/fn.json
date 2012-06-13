@@ -1,0 +1,10 @@
+{
+  "a": 1 + 2,
+  "b": prompt('To be or not to be?', '!2b', function (s) {
+    return s.toUpperCase() + '...'
+  }),
+  "c": {
+    "x": prompt(function (x) { return x * 100 }),
+    "y": tmpdir + "/y/file.txt"
+  }
+}

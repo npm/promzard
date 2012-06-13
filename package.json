@@ -9,6 +9,9 @@
   "dependencies": {
     "read": "0.0.3"
   },
+  "devDependencies": {
+    "tap": "~0.2.5"
+  },
   "main": "promzard.js",
   "scripts": {
     "test": "tap test/*.js"
