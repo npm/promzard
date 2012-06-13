@@ -1,13 +1,12 @@
 var test = require('tap').test;
-var prompter = require('../');
-var Stream = require('stream');
+var promzard = require('../');
 
 test('prompt callback param', function (t) {
     t.plan(1);
     
     var ctx = { tmpdir : '/tmp' }
     var file = __dirname + '/fn.json';
-    prompter(file, ctx, function (err, output) {
+    promzard(file, ctx, function (err, output) {
         t.same(
             {
                 a : 3,

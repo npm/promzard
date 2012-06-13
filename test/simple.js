@@ -1,6 +1,5 @@
 var test = require('tap').test;
 var promzard = require('../');
-var Stream = require('stream');
 
 test('simple', function (t) {
     t.plan(1);
