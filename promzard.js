@@ -77,7 +77,8 @@ PromZard.prototype.loaded = function () {
   var args = Object.keys(this.ctx).map(function (k) {
     return this.ctx[k]
   }.bind(this))
-  var res = fn.apply(this.ctx, args)
+  try { var res = fn.apply(this.ctx, args) }
+  catch (er) { this.emit('error', er) }
   if (res &&
       typeof res === 'object' &&
       exports === mod.exports &&
@@ -180,7 +181,7 @@ PromZard.prototype.walk = function (o, cb) {
           L.call(this)
         }.bind(this))
       } else if (typeof v === 'function') {
-        return v.call(this.ctx, function (er, res) {
+        try { return v.call(this.ctx, function (er, res) {
           if (er)
             return this.emit('error', this.error = er)
           o[k] = res
@@ -188,7 +189,8 @@ PromZard.prototype.walk = function (o, cb) {
           // this is because it might return a prompt() call in the cb.
           i --
           L.call(this)
-        }.bind(this))
+        }.bind(this)) }
+        catch (er) { this.emit('error', er) }
       }
     }
     // made it to the end of the loop, maybe
@@ -204,8 +206,9 @@ PromZard.prototype.prompt = function (pdt, cb) {
 
   if (tx) {
     cb = function (cb) { return function (er, data) {
-      return cb(er, tx(data))
-    }}(cb)
+      try { return cb(er, tx(data)) }
+      catch (er) { this.emit('error', er) }
+    }}(cb).bind(this)
   }
 
   read({ prompt: prompt + ': ' , default: def }, cb)
