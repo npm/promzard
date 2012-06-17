@@ -47,7 +47,7 @@ PromZard.prototype.load = function () {
 
   fs.readFile(this.file, 'utf8', function (er, d) {
     if (er)
-      return this.emit('error', er)
+      return this.emit('error', this.error = er)
     files[this.file] = d
     this.loaded()
   }.bind(this))
@@ -72,7 +72,15 @@ PromZard.prototype.loaded = function () {
   var args = Object.keys(this.ctx).map(function (k) {
     return this.ctx[k]
   }.bind(this))
-  this.result = fn.apply(this.ctx, args)
+  var res = fn.apply(this.ctx, args)
+  if (res &&
+      typeof res === 'object' &&
+      exports === mod.exports &&
+      Object.keys(exports).length === 1) {
+    this.result = res
+  } else {
+    this.result = mod.exports
+  }
   this.walk()
 }
 
@@ -84,8 +92,8 @@ PromZard.prototype.makeModule = function (path) {
 }
 
 PromZard.prototype.wrap = function (body) {
-  var s = '(function( %s ) { return %s\n })'
-  var args = Object.keys(this.ctx).join(',')
+  var s = '(function( %s ) { %s\n })'
+  var args = Object.keys(this.ctx).join(', ')
   return util.format(s, args, body)
 }
 
@@ -102,6 +110,11 @@ PromZard.prototype.makePrompt = function () {
         p = a
       else if (typeof a === 'function')
         t = a
+      else if (a && typeof a === 'object') {
+        p = a.prompt || p
+        d = a.default || d
+        t = a.tranform || t
+      }
     }
 
     try { return this.unique + '-' + this.prompts.length }
@@ -113,7 +126,7 @@ PromZard.prototype.walk = function (o, cb) {
   o = o || this.result
   cb = cb || function (er, res) {
     if (er)
-      return this.emit('error', er)
+      return this.emit('error', this.error = er)
     this.result = res
     return this.emit('data', res)
   }
@@ -124,6 +137,8 @@ PromZard.prototype.walk = function (o, cb) {
 
   L.call(this)
   function L () {
+    if (this.error)
+      return
     while (i < len) {
       var k = keys[i]
       var v = o[k]
@@ -152,6 +167,15 @@ PromZard.prototype.walk = function (o, cb) {
           prompt[1] = this.ctx[k]
 
         return this.prompt(prompt, function (er, res) {
+          if (er)
+            return this.emit('error', this.error = er);
+          o[k] = res
+          L.call(this)
+        }.bind(this))
+      } else if (typeof v === 'function') {
+        return v.call(this.ctx, function (er, res) {
+          if (er)
+            return this.emit('error', this.error = er)
           o[k] = res
           L.call(this)
         }.bind(this))

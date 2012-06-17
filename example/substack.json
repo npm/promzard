@@ -1,4 +1,4 @@
-{
+module.exports = {
     "name" : basename.replace(/^node-/, ''),
     "version" : "0.0.0",
     "description" : (function (cb) {
@@ -26,8 +26,11 @@
         var fs = require('fs');
         var exists = fs.exists || path.exists;
         exists('bin/cmd.js', function (ex) {
-            var bin = {};
-            if (ex) bin[basename.replace(/^node-/, '')] = 'bin/cmd.js';
+            var bin
+            if (ex) {
+                var bin = {}
+                bin[basename.replace(/^node-/, '')] = 'bin/cmd.js'
+            }
             cb(null, bin);
         });
     },

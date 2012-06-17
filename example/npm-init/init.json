@@ -1,4 +1,4 @@
-{
+module.exports = {
   "name" : prompt('name',
     typeof name === 'undefined'
     ? basename.replace(/^node-|[.-]js$/g, ''): name),

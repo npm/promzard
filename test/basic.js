@@ -75,6 +75,7 @@ tap.test('run the example', function (t) {
   }
 
   c.on('close', function () {
+    console.error('actual', actual)
     actual = JSON.parse(actual)
     t.deepEqual(actual, expect)
     t.end()

@@ -1,26 +1,22 @@
 var test = require('tap').test;
 var promzard = require('../');
-var fs = require('fs')
 
-test('prompt callback param', function (t) {
+test('exports', function (t) {
     t.plan(1);
     
     var ctx = { tmpdir : '/tmp' }
-    var file = __dirname + '/fn.json';
+    var file = __dirname + '/exports.json';
     promzard(file, ctx, function (err, output) {
-        var expect = 
+        t.same(
             {
                 a : 3,
-                b : '!2B...',
+                b : '!2b',
                 c : {
-                    x : 5500,
+                    x : 55,
                     y : '/tmp/y/file.txt',
                 }
-            }
-        expect.a_function = fs.readFileSync(file, 'utf8')
-        t.same(
-            output,
-            expect
+            },
+            output
         );
     });
     
