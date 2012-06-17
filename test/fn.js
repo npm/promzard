@@ -6,7 +6,7 @@ test('prompt callback param', function (t) {
     t.plan(1);
     
     var ctx = { tmpdir : '/tmp' }
-    var file = __dirname + '/fn.json';
+    var file = __dirname + '/fn.input';
     promzard(file, ctx, function (err, output) {
         var expect = 
             {

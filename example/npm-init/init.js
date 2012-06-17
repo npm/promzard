@@ -1,6 +1,6 @@
 var PZ = require('../../promzard').PromZard
 var path = require('path')
-var input = path.resolve(__dirname, 'init.json')
+var input = path.resolve(__dirname, 'init-input.js')
 
 var fs = require('fs')
 var package = path.resolve(__dirname, 'package.json')

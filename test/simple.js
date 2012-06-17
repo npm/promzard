@@ -5,7 +5,7 @@ test('simple', function (t) {
     t.plan(1);
     
     var ctx = { tmpdir : '/tmp' }
-    var file = __dirname + '/simple.json';
+    var file = __dirname + '/simple.input';
     promzard(file, ctx, function (err, output) {
         t.same(
             {
