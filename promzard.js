@@ -46,6 +46,11 @@ PromZard.prototype.load = function () {
     return this.loaded()
 
   fs.readFile(this.file, 'utf8', function (er, d) {
+    if (er && this.backupFile) {
+      this.file = this.backupFile
+      delete this.backupFile
+      return this.load()
+    }
     if (er)
       return this.emit('error', this.error = er)
     files[this.file] = d
