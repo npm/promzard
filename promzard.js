@@ -89,10 +89,12 @@ PromZard.prototype.loaded = function () {
   this.walk()
 }
 
-PromZard.prototype.makeModule = function (path) {
-  var mod = new Module(path, module)
+PromZard.prototype.makeModule = function () {
+  var mod = new Module(this.file, module)
   mod.loaded = true
   mod.filename = this.file
+  mod.id = this.file
+  mod.paths = Module._nodeModulePaths(path.dirname(this.file))
   return mod
 }
 
