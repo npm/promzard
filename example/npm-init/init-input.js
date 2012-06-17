@@ -1,20 +1,23 @@
+var fs = require('fs')
+var path = require('path');
+
 module.exports = {
   "name" : prompt('name',
     typeof name === 'undefined'
     ? basename.replace(/^node-|[.-]js$/g, ''): name),
-  "version" : prompt('version', typeof version !== undefined
+  "version" : prompt('version', typeof version !== "undefined"
                               ? version : '0.0.0'),
   "description" : (function () {
       if (typeof description !== 'undefined' && description) {
         return description
       }
-      var fs = require('fs');
       var value;
       try {
-          var src = fs.readFileSync('README.markdown', 'utf8');
+          var src = fs.readFileSync('README.md', 'utf8');
           value = src.split('\n').filter(function (line) {
               return /\s+/.test(line)
                   && line.trim() !== basename.replace(/^node-/, '')
+                  && !line.trim().match(/^#/)
               ;
           })[0]
               .trim()
@@ -25,25 +28,31 @@ module.exports = {
       catch (e) {
         try {
           // Wouldn't it be nice if that file mattered?
-          value = fs.readFileSync('.git/description', 'utf8')
+          var d = fs.readFileSync('.git/description', 'utf8')
         } catch (e) {}
+        if (d.trim() && !value) value = d
       }
       return prompt('description', value);
   })(),
   "main" : (function () {
-    var fs = require('fs')
     var f
     try {
       f = fs.readdirSync(dirname).filter(function (f) {
         return f.match(/\.js$/)
-      })[0]
+      })
+      if (f.indexOf('index.js') !== -1)
+        f = 'index.js'
+      else if (f.indexOf('main.js') !== -1)
+        f = 'main.js'
+      else if (f.indexOf(basename + '.js') !== -1)
+        f = basename + '.js'
+      else
+        f = f[0]
     } catch (e) {}
 
     return prompt('entry point', f || 'index.js')
   })(),
   "bin" : function (cb) {
-    var path = require('path');
-    var fs = require('fs');
     fs.readdir(dirname + '/bin', function (er, d) {
       // no bins
       if (er) return cb()
@@ -65,6 +74,7 @@ module.exports = {
           case 'man': return res.man = d
         }
       })
+      if (Object.keys(res).length === 0) res = undefined
       return cb(null, res)
     })
   },
@@ -117,31 +127,35 @@ module.exports = {
     },
   "scripts" : (function () {
     // check to see what framework is in use, if any
-    var fs = require('fs')
     try { var d = fs.readdirSync('node_modules') }
-    catch (e) { d = null }
+    catch (e) { d = [] }
     var s = typeof scripts === 'undefined' ? {} : scripts
 
-    if (!d) {
-      s.test = s.test || prompt('test command')
-      return s
+    if (d.indexOf('coffee-script') !== -1)
+      s.prepublish = prompt('build command',
+                            s.prepublish || 'coffee src/*.coffee -o lib')
+
+    var notest = 'echo "Error: no test specified" && exit 1'
+    function tx (test) {
+      return test || notest
     }
 
-    if (d.indexOf('coffee-script') !== -1)
-      s.build = prompt('build command', s.build || 'coffee src/*.coffee -o lib')
+    if (!s.test || s.test === notest) {
+      if (d.indexOf('tap') !== -1)
+        s.test = prompt('test command', 'tap test/*.js', tx)
+      else if (d.indexOf('expresso') !== -1)
+        s.test = prompt('test command', 'expresso test', tx)
+      else if (d.indexOf('mocha') !== -1)
+        s.test = prompt('test command', 'mocha', tx)
+      else
+        s.test = prompt('test command', tx)
+    }
 
-    if (d.indexOf('tap') !== -1)
-      s.test = prompt('test command', 'tap test/*.js')
-    else if (d.indexOf('expresso') !== -1)
-      s.test = prompt('test command', 'expresso test')
-    else if (d.indexOf('mocha') !== -1)
-      s.test = prompt('test command', 'mocha')
-    else
-      s.test = prompt('test command')
+    return s
+
   })(),
 
   "repository" : (function () {
-    var fs = require('fs')
     try { var gconf = fs.readFileSync('.git/config') }
     catch (e) { gconf = null }
     if (gconf) {
