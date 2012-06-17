@@ -182,6 +182,9 @@ PromZard.prototype.walk = function (o, cb) {
           if (er)
             return this.emit('error', this.error = er)
           o[k] = res
+          // back up so that we process this one again.
+          // this is because it might return a prompt() call in the cb.
+          i --
           L.call(this)
         }.bind(this))
       }

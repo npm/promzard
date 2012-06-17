@@ -11,5 +11,8 @@ module.exports = {
   },
   a_function: function (cb) {
     fs.readFile(__filename, 'utf8', cb)
+  },
+  asyncPrompt: function (cb) {
+    return cb(null, prompt('a prompt at any other time would smell as sweet'))
   }
 }

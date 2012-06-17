@@ -87,3 +87,44 @@ whatever needs verification.
 The functions are called in the context of the ctx object, and are given
 a single argument, which is a callback that should be called with either
 an error, or the result to assign to that spot.
+
+In the async function, you can also call prompt() and return the result
+of the prompt in the callback.
+
+For example, this works fine in a promzard module:
+
+```
+exports.asyncPrompt = function (cb) {
+  fs.stat(someFile, function (er, st) {
+    // if there's an error, no prompt, just error
+    // otherwise prompt and use the actual file size as the default
+    cb(er, prompt('file size', st.size))
+  })
+}
+```
+
+You can also return other async functions in the async function
+callback.  Though that's a bit silly, it could be a handy way to reuse
+functionality in some cases.
+
+### Sync vs Async
+
+The `prompt()` function is not synchronous, though it appears that way.
+It just returns a token that is swapped out when the data object is
+walked over asynchronously later, and returns a token.
+
+For that reason, prompt() calls whose results don't end up on the data
+object are never shown to the user.  For example, this will only prompt
+once:
+
+```
+exports.promptThreeTimes = prompt('prompt me once', 'shame on you')
+exports.promptThreeTimes = prompt('prompt me twice', 'um....')
+exports.promptThreeTimes = prompt('you cant prompt me again')
+```
+
+### Isn't this exactly the sort of 'looks sync' that you said was bad about other libraries?
+
+Yeah, sorta.  I wouldn't use promzard for anything more complicated than
+a wizard that spits out prompts to set up a config file or something.
+Maybe there are other use cases I haven't considered.
