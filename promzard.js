@@ -192,10 +192,11 @@ PromZard.prototype.prompt = function (pdt, cb) {
   var def = pdt[1]
   var tx = pdt[2]
 
-  if (tx)
+  if (tx) {
     cb = function (cb) { return function (er, data) {
-      return cb(er, data ? tx(data) : null)
+      return cb(er, tx(data))
     }}(cb)
+  }
 
   read({ prompt: prompt + ': ' , default: def }, cb)
 }
