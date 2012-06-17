@@ -19,6 +19,26 @@ promzard(inputFile, optionalContextAdditions, function (er, data) {
 })
 ```
 
+In the `inputFile` you can have something like this:
+
+```javascript
+var fs = require('fs')
+module.exports = {
+  "greeting": prompt("Who shall you greet?", "world", function (who) {
+    return "Hello, " + who
+  }),
+  "filename": __filename,
+  "directory": function (cb) {
+    fs.readdir(__dirname, cb)
+  }
+}
+```
+
+When run, promzard will display the prompts and resolve the async
+functions in order, and then either give you an error, or the resolved
+data, ready to be dropped into a JSON file or some other place.
+
+
 ### promzard(inputFile, ctx, callback)
 
 The inputFile is just a node module.  You can require() things, set
