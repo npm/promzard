@@ -3,6 +3,7 @@
   "name": "promzard",
   "description": "prompting wizardly",
   "version": "0.2.0",
+  "license": "BSD",
   "repository": {
     "url": "git://github.com/isaacs/promzard"
   },
