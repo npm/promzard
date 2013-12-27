@@ -15,5 +15,6 @@
   "main": "promzard.js",
   "scripts": {
     "test": "tap test/*.js"
-  }
+  },
+  "license": "ISC"
 }
