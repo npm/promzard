@@ -175,8 +175,14 @@ PromZard.prototype.walk = function (o, cb) {
           prompt[1] = this.ctx[k]
 
         return this.prompt(prompt, function (er, res) {
-          if (er)
-            return this.emit('error', this.error = er);
+          if (er) {
+            if (!er.notValid) {
+              return this.emit('error', this.error = er);
+            }
+            console.log(er.message)
+            i --
+            return L.call(this)
+          }
           o[k] = res
           L.call(this)
         }.bind(this))
@@ -206,7 +212,13 @@ PromZard.prototype.prompt = function (pdt, cb) {
 
   if (tx) {
     cb = function (cb) { return function (er, data) {
-      try { return cb(er, tx(data)) }
+      try {
+        var res = tx(data)
+        if (!er && res instanceof Error && !!res.notValid) {
+          return cb(res, null)
+        }
+        return cb(er, res)
+      }
       catch (er) { this.emit('error', er) }
     }}(cb).bind(this)
   }
