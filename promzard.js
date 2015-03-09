@@ -21,6 +21,16 @@ function promzard (file, ctx, cb) {
     cb(null, data)
   })
 }
+promzard.fromBuffer = function (buf, ctx, cb) {
+  var filename = 0
+  do {
+    filename = '\0' + Math.random();
+  } while (files[filename])
+  files[filename] = buf
+  var ret = promzard(filename, ctx, cb)
+  delete files[filename]
+  return ret
+}
 
 function PromZard (file, ctx) {
   if (!(this instanceof PromZard))
@@ -42,6 +52,7 @@ PromZard.prototype = Object.create(
       enumerable: false } } )
 
 PromZard.prototype.load = function () {
+  console.log(files, this.file)
   if (files[this.file])
     return this.loaded()
 
