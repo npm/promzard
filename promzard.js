@@ -52,7 +52,6 @@ PromZard.prototype = Object.create(
       enumerable: false } } )
 
 PromZard.prototype.load = function () {
-  console.log(files, this.file)
   if (files[this.file])
     return this.loaded()
 

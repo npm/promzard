@@ -45,7 +45,6 @@ tap.test('run the example using a buffer', function (t) {
     }
   }
 
-  console.error('%s %s', node, example)
   var c = spawn(node, [example], { customFds: [-1,-1,-1] })
   var output = ''
   c.stdout.on('data', function (d) {
@@ -59,7 +58,6 @@ tap.test('run the example using a buffer', function (t) {
   })
 
   function respond () {
-    console.error('respond', output)
     if (output.match(/description: $/)) {
       c.stdin.write('testing description\n')
       return
@@ -78,12 +76,7 @@ tap.test('run the example using a buffer', function (t) {
     }
   }
 
-  c.on('exit', function () {
-    console.error('exit event')
-  })
-
   c.on('close', function () {
-    console.error('actual', actual)
     actual = JSON.parse(actual)
     t.deepEqual(actual, expect)
     t.end()
