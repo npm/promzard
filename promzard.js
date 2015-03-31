@@ -216,23 +216,28 @@ PromZard.prototype.walk = function (o, cb) {
 }
 
 PromZard.prototype.prompt = function (pdt, cb) {
-  var prompt = pdt[0]
-  var def = pdt[1]
-  var tx = pdt[2]
+  function self(pdt, cb) {
+    var prompt = pdt[0]
+    var def = pdt[1]
+    var tx = pdt[2]
 
-  if (tx) {
-    cb = function (cb) { return function (er, data) {
-      try {
-        var res = tx(data)
-        if (!er && res instanceof Error && !!res.notValid) {
-          return cb(res, null)
+    if (tx) {
+      cb = function (cb) { return function (er, data) {
+        try {
+          var res = tx(data)
+          if (!er && res instanceof Error && !!res.notValid) {
+            if (!res.again) return cb(res, null)
+            console.log(res.message)
+            return self(pdt, cb)
+          }
+          return cb(er, res)
         }
-        return cb(er, res)
-      }
-      catch (er) { this.emit('error', er) }
-    }}(cb).bind(this)
-  }
+        catch (er) { this.emit('error', er) }
+      }}(cb).bind(this)
+    }
 
-  read({ prompt: prompt + ':' , default: def }, cb)
+    read({ prompt: prompt + ':' , default: def }, cb)
+  }
+  self(pdt, cb)
 }
 
