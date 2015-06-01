@@ -7,6 +7,7 @@ test('simple', function (t) {
     var ctx = { tmpdir : '/tmp' }
     var file = __dirname + '/simple.input';
     promzard(file, ctx, function (err, output) {
+        console.log('')
         t.same(
             {
                 a : 3,

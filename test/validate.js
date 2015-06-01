@@ -3,11 +3,13 @@ var promzard = require('../')
 var test = require('tap').test
 
 test('validate', function (t) {
-  t.plan(2)
+  t.plan(1)
   var ctx = { tmpdir : '/tmp' }
   var file = __dirname + '/validate.input'
   promzard(file, ctx, function (er, found) {
-    t.ok(!er)
+    console.log('')
+    if (er)
+      throw er
     var wanted = { name: 'cool' }
     t.same(found, wanted)
   })

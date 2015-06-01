@@ -1,5 +1,10 @@
-var test = require('tap').test;
 var promzard = require('../');
+
+if (process.argv[2] === 'child') {
+  return child()
+}
+
+var test = require('tap').test;
 var fs = require('fs')
 var file = __dirname + '/fn.input';
 
@@ -13,10 +18,6 @@ var expect = {
 }
 expect.a_function = fs.readFileSync(file, 'utf8')
 expect.asyncPrompt = 'async prompt'
-
-if (process.argv[2] === 'child') {
-  return child()
-}
 
 test('prompt callback param', function (t) {
   t.plan(1);
