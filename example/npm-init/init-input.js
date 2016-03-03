@@ -156,7 +156,7 @@ module.exports = {
   })(),
 
   "repository" : (function () {
-    try { var gconf = fs.readFileSync('.git/config') }
+    try { var gconf = fs.readFileSync('.git/config','utf8') }
     catch (e) { gconf = null }
     if (gconf) {
       gconf = gconf.split(/\r?\n/)
