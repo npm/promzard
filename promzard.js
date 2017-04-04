@@ -233,6 +233,9 @@ PromZard.prototype.prompt = function (pdt, cb) {
     }}(cb).bind(this)
   }
 
-  read({ prompt: prompt + ':' , default: def }, cb)
+  if (this.ctx.noprompt)
+    cb(null, def || '', true)
+  else
+    read({ prompt: prompt + ':' , default: def }, cb)
 }
 
