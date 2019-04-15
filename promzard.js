@@ -88,7 +88,7 @@ PromZard.prototype.loaded = function () {
     return this.ctx[k]
   }.bind(this))
   try { var res = fn.apply(this.ctx, args) }
-  catch (er) { this.emit('error', er) }
+  catch (er) { return this.emit('error', er) }
   if (res &&
       typeof res === 'object' &&
       exports === mod.exports &&
