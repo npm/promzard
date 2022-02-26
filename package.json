@@ -13,6 +13,9 @@
     "tap": "^1.2.0"
   },
   "main": "promzard.js",
+  "files": [
+    "promzard.js"
+  ],
   "scripts": {
     "test": "tap test/*.js"
   },
