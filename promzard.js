@@ -171,7 +171,7 @@ PromZard.prototype.walk = function (o, cb) {
       } else if (v &&
                  typeof v === 'string' &&
                  v.indexOf(this.unique) === 0) {
-        var n = +v.substr(this.unique.length + 1)
+        var n = +v.slice(this.unique.length + 1)
         var prompt = this.prompts[n]
         if (isNaN(n) || !prompt)
           continue
