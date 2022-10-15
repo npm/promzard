@@ -1,26 +1,26 @@
-var promzard = require('../');
+var promzard = require('../')
 
 if (process.argv[2] === 'child') {
   return child()
 }
 
-var test = require('tap').test;
+var test = require('tap').test
 var fs = require('fs')
-var file = __dirname + '/fn.input';
+var file = __dirname + '/fn.input'
 
 var expect = {
-  a : 3,
-  b : '!2B...',
-  c : {
-    x : 5500,
-    y : '/tmp/y/file.txt',
-  }
+  a: 3,
+  b: '!2B...',
+  c: {
+    x: 5500,
+    y: '/tmp/y/file.txt',
+  },
 }
 expect.a_function = fs.readFileSync(file, 'utf8')
 expect.asyncPrompt = 'async prompt'
 
 test('prompt callback param', function (t) {
-  t.plan(1);
+  t.plan(1)
 
   var spawn = require('child_process').spawn
   var child = spawn(process.execPath, [__filename, 'child'])
@@ -33,7 +33,7 @@ test('prompt callback param', function (t) {
   child.on('close', function () {
     console.error('output=%j', output)
     output = JSON.parse(output)
-    t.same(output, expect);
+    t.same(output, expect)
     t.end()
   })
 
@@ -49,8 +49,8 @@ test('prompt callback param', function (t) {
 })
 
 function child () {
-  var ctx = { tmpdir : '/tmp' }
-  var file = __dirname + '/fn.input';
+  var ctx = { tmpdir: '/tmp' }
+  var file = __dirname + '/fn.input'
   promzard(file, ctx, function (err, output) {
     console.error(JSON.stringify(output))
   })
