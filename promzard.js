@@ -13,8 +13,12 @@ var Module = require('module').Module
 var path = require('path')
 
 function promzard (file, ctx, cb) {
-  if (typeof ctx === 'function') cb = ctx, ctx = null;
-  if (!ctx) ctx = {};
+  if (typeof ctx === 'function') {
+    cb = ctx, ctx = null
+  }
+  if (!ctx) {
+    ctx = {}
+  }
   var pz = new PromZard(file, ctx)
   pz.on('error', cb)
   pz.on('data', function (data) {
@@ -24,7 +28,7 @@ function promzard (file, ctx, cb) {
 promzard.fromBuffer = function (buf, ctx, cb) {
   var filename = 0
   do {
-    filename = '\0' + Math.random();
+    filename = '\0' + Math.random()
   } while (files[filename])
   files[filename] = buf
   var ret = promzard(filename, ctx, cb)
@@ -33,8 +37,9 @@ promzard.fromBuffer = function (buf, ctx, cb) {
 }
 
 function PromZard (file, ctx) {
-  if (!(this instanceof PromZard))
+  if (!(this instanceof PromZard)) {
     return new PromZard(file, ctx)
+  }
   EventEmitter.call(this)
   this.file = file
   this.ctx = ctx
@@ -45,15 +50,16 @@ function PromZard (file, ctx) {
 PromZard.prototype = Object.create(
   EventEmitter.prototype,
   { constructor: {
-      value: PromZard,
-      readable: true,
-      configurable: true,
-      writable: true,
-      enumerable: false } } )
+    value: PromZard,
+    readable: true,
+    configurable: true,
+    writable: true,
+    enumerable: false } })
 
 PromZard.prototype.load = function () {
-  if (files[this.file])
+  if (files[this.file]) {
     return this.loaded()
+  }
 
   fs.readFile(this.file, 'utf8', function (er, d) {
     if (er && this.backupFile) {
@@ -61,8 +67,9 @@ PromZard.prototype.load = function () {
       delete this.backupFile
       return this.load()
     }
-    if (er)
+    if (er) {
       return this.emit('error', this.error = er)
+    }
     files[this.file] = d
     this.loaded()
   }.bind(this))
@@ -77,8 +84,8 @@ PromZard.prototype.loaded = function () {
   this.ctx.require = function (path) {
     return mod.require(path)
   }
-  this.ctx.require.resolve = function(path) {
-    return Module._resolveFilename(path, mod);
+  this.ctx.require.resolve = function (path) {
+    return Module._resolveFilename(path, mod)
   }
   this.ctx.exports = mod.exports
 
@@ -87,8 +94,11 @@ PromZard.prototype.loaded = function () {
   var args = Object.keys(this.ctx).map(function (k) {
     return this.ctx[k]
   }.bind(this))
-  try { var res = fn.apply(this.ctx, args) }
-  catch (er) { this.emit('error', er) }
+  try {
+    var res = fn.apply(this.ctx, args)
+  } catch (er) {
+    this.emit('error', er)
+  }
   if (res &&
       typeof res === 'object' &&
       exports === mod.exports &&
@@ -122,29 +132,33 @@ PromZard.prototype.makePrompt = function () {
     var p, d, t
     for (var i = 0; i < arguments.length; i++) {
       var a = arguments[i]
-      if (typeof a === 'string' && p)
+      if (typeof a === 'string' && p) {
         d = a
-      else if (typeof a === 'string')
+      } else if (typeof a === 'string') {
         p = a
-      else if (typeof a === 'function')
+      } else if (typeof a === 'function') {
         t = a
-      else if (a && typeof a === 'object') {
+      } else if (a && typeof a === 'object') {
         p = a.prompt || p
         d = a.default || d
         t = a.transform || t
       }
     }
 
-    try { return this.unique + '-' + this.prompts.length }
-    finally { this.prompts.push([p, d, t]) }
+    try {
+      return this.unique + '-' + this.prompts.length
+    } finally {
+      this.prompts.push([p, d, t])
+    }
   }
 }
 
 PromZard.prototype.walk = function (o, cb) {
   o = o || this.result
   cb = cb || function (er, res) {
-    if (er)
+    if (er) {
       return this.emit('error', this.error = er)
+    }
     this.result = res
     return this.emit('data', res)
   }
@@ -155,8 +169,9 @@ PromZard.prototype.walk = function (o, cb) {
 
   L.call(this)
   function L () {
-    if (this.error)
+    if (this.error) {
       return
+    }
     while (i < len) {
       var k = keys[i]
       var v = o[k]
@@ -164,7 +179,9 @@ PromZard.prototype.walk = function (o, cb) {
 
       if (v && typeof v === 'object') {
         return this.walk(v, function (er, res) {
-          if (er) return cb(er)
+          if (er) {
+            return cb(er)
+          }
           o[k] = res
           L.call(this)
         }.bind(this))
@@ -173,45 +190,53 @@ PromZard.prototype.walk = function (o, cb) {
                  v.indexOf(this.unique) === 0) {
         var n = +v.substr(this.unique.length + 1)
         var prompt = this.prompts[n]
-        if (isNaN(n) || !prompt)
+        if (isNaN(n) || !prompt) {
           continue
+        }
 
         // default to the key
-        if (undefined === prompt[0])
+        if (undefined === prompt[0]) {
           prompt[0] = k
+        }
 
         // default to the ctx value, if there is one
-        if (undefined === prompt[1])
+        if (undefined === prompt[1]) {
           prompt[1] = this.ctx[k]
+        }
 
         return this.prompt(prompt, function (er, res) {
           if (er) {
             if (!er.notValid) {
-              return this.emit('error', this.error = er);
+              return this.emit('error', this.error = er)
             }
             console.log(er.message)
-            i --
+            i--
             return L.call(this)
           }
           o[k] = res
           L.call(this)
         }.bind(this))
       } else if (typeof v === 'function') {
-        try { return v.call(this.ctx, function (er, res) {
-          if (er)
-            return this.emit('error', this.error = er)
-          o[k] = res
-          // back up so that we process this one again.
-          // this is because it might return a prompt() call in the cb.
-          i --
-          L.call(this)
-        }.bind(this)) }
-        catch (er) { this.emit('error', er) }
+        try {
+          return v.call(this.ctx, function (er, res) {
+            if (er) {
+              return this.emit('error', this.error = er)
+            }
+            o[k] = res
+            // back up so that we process this one again.
+            // this is because it might return a prompt() call in the cb.
+            i--
+            L.call(this)
+          }.bind(this))
+        } catch (er) {
+          this.emit('error', er)
+        }
       }
     }
     // made it to the end of the loop, maybe
-    if (i >= len)
+    if (i >= len) {
       return cb(null, o)
+    }
   }
 }
 
@@ -221,18 +246,20 @@ PromZard.prototype.prompt = function (pdt, cb) {
   var tx = pdt[2]
 
   if (tx) {
-    cb = function (cb) { return function (er, data) {
-      try {
-        var res = tx(data)
-        if (!er && res instanceof Error && !!res.notValid) {
-          return cb(res, null)
+    cb = (function (cb) {
+      return function (er, data) {
+        try {
+          var res = tx(data)
+          if (!er && res instanceof Error && !!res.notValid) {
+            return cb(res, null)
+          }
+          return cb(er, res)
+        } catch (er) {
+          this.emit('error', er)
         }
-        return cb(er, res)
       }
-      catch (er) { this.emit('error', er) }
-    }}(cb).bind(this)
+    }(cb)).bind(this)
   }
 
-  read({ prompt: prompt + ':' , default: def }, cb)
+  read({ prompt: prompt + ':', default: def }, cb)
 }
-
