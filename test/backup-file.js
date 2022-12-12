@@ -1,11 +1,11 @@
 const t = require('tap')
-const { setup, child, isChild } = require('./fixtures/setup')
+const { setup, child, isChild, getFixture } = require('./fixtures/setup')
 
 if (isChild()) {
-  return child(__filename, { tmpdir: '/tmp' })
+  return child('file does not exist', { tmpdir: '/tmp' }, { backupFile: getFixture('simple') })
 }
 
-t.test('exports', async (t) => {
+t.test('backup file', async (t) => {
   const output = await setup(__filename, ['', '55'])
 
   t.same(JSON.parse(output), {

@@ -16,23 +16,20 @@ The goal is a nice drop-in enhancement for `npm init`.
 ## Usage
 
 ```javascript
-var promzard = require('promzard')
-promzard(inputFile, optionalContextAdditions, function (er, data) {
-  // .. you know what you doing ..
-})
+const promzard = require('promzard')
+const data = await promzard(inputFile, optionalContextAdditions, options)
 ```
 
 In the `inputFile` you can have something like this:
 
 ```javascript
-var fs = require('fs')
+const fs = require('fs/promises')
 module.exports = {
-  "greeting": prompt("Who shall you greet?", "world", function (who) {
-    return "Hello, " + who
-  }),
+  "greeting": prompt("Who shall you greet?", "world", (who) => `Hello, ${who}`),
   "filename": __filename,
-  "directory": function (cb) {
-    fs.readdir(__dirname, cb)
+  "directory": async () => {
+    const entries = await fs.readdir(__dirname)
+    return entries.map(e => `entry: ${e}`)
   }
 }
 ```
@@ -42,7 +39,7 @@ functions in order, and then either give you an error, or the resolved
 data, ready to be dropped into a JSON file or some other place.
 
 
-### promzard(inputFile, ctx, callback)
+### promzard(inputFile, ctx, options)
 
 The inputFile is just a node module.  You can require() things, set
 module.exports, etc.  Whatever that module exports is the result, and it
@@ -56,13 +53,15 @@ Whatever you put in that `ctx` will of course also be available in the
 module.  You can get quite fancy with this, passing in existing configs
 and so on.
 
-### Class: promzard.PromZard(file, ctx)
+#### options.backupFile
 
-Just like the `promzard` function, but the EventEmitter that makes it
-all happen.  Emits either a `data` event with the data, or a `error`
-event if it blows up.
+Use the `backupFile` option as a fallback when `inputFile` fails to be read.
 
-If `error` is emitted, then `data` never will be.
+### Class: promzard.PromZard(file, ctx, options).load()
+
+Just like the `promzard` function, but the class that makes it
+all happen.  The `load` method returns a promise which will resolve
+to the resolved data or throw with an error.
 
 ### prompt(...)
 
@@ -83,26 +82,23 @@ object.
 ### Functions
 
 If there are any functions on the promzard input module's exports, then
-promzard will call each of them with a callback.  This way, your module
+promzard will await each of them.  This way, your module
 can do asynchronous actions if necessary to validate or ascertain
 whatever needs verification.
 
-The functions are called in the context of the ctx object, and are given
-a single argument, which is a callback that should be called with either
-an error, or the result to assign to that spot.
+The functions are called in the context of the ctx object.
 
 In the async function, you can also call prompt() and return the result
-of the prompt in the callback.
+of the prompt.
 
 For example, this works fine in a promzard module:
 
-```
-exports.asyncPrompt = function (cb) {
-  fs.stat(someFile, function (er, st) {
-    // if there's an error, no prompt, just error
-    // otherwise prompt and use the actual file size as the default
-    cb(er, prompt('file size', st.size))
-  })
+```js
+exports.asyncPrompt = async function () {
+  const st = await fs.stat(someFile)
+  // if there's an error, no prompt, just error
+  // otherwise prompt and use the actual file size as the default
+  return prompt('file size', st.size)
 }
 ```
 
