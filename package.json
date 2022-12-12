@@ -8,14 +8,14 @@
     "type": "git"
   },
   "dependencies": {
-    "read": "1"
+    "read": "^1.0.0"
   },
   "devDependencies": {
     "@npmcli/eslint-config": "^4.0.0",
     "@npmcli/template-oss": "4.6.0",
     "tap": "^16.3.0"
   },
-  "main": "promzard.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "tap",
     "lint": "eslint \"**/*.js\"",
@@ -38,6 +38,12 @@
     "version": "4.6.0"
   },
   "tap": {
+    "statements": 93,
+    "branches": 72,
+    "functions": 87,
+    "lines": 94,
+    "jobs": 1,
+    "test-ignore": "fixtures/",
     "nyc-arg": [
       "--exclude",
       "tap-snapshots/**"

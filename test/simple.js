@@ -1,31 +1,19 @@
-var test = require('tap').test
-var promzard = require('../')
+const t = require('tap')
+const { setup, child, isChild } = require('./fixtures/setup')
 
-test('simple', function (t) {
-  t.plan(1)
+if (isChild()) {
+  return child(__filename, { tmpdir: '/tmp' })
+}
 
-  var ctx = { tmpdir: '/tmp' }
-  var file = __dirname + '/simple.input'
-  promzard(file, ctx, function (err, output) {
-    console.log('')
-    t.same(
-      {
-        a: 3,
-        b: '!2b',
-        c: {
-          x: 55,
-          y: '/tmp/y/file.txt',
-        },
-      },
-      output
-    )
+t.test('simple', async (t) => {
+  const output = await setup(__filename, ['', '55'])
+
+  t.same(JSON.parse(output), {
+    a: 3,
+    b: '!2b',
+    c: {
+      x: 55,
+      y: '/tmp/y/file.txt',
+    },
   })
-
-  setTimeout(function () {
-    process.stdin.emit('data', '\n')
-  }, 100)
-
-  setTimeout(function () {
-    process.stdin.emit('data', '55\n')
-  }, 200)
 })
