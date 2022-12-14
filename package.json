@@ -8,7 +8,7 @@
     "type": "git"
   },
   "dependencies": {
-    "read": "^1.0.0"
+    "read": "^2.0.0"
   },
   "devDependencies": {
     "@npmcli/eslint-config": "^4.0.0",
