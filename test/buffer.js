@@ -17,6 +17,7 @@ t.test('run the example', async (t) => {
     version: '0.0.0',
     description: 'testing description',
     main: 'test-entry.js',
+    resolved: 'error',
     directories: {
       example: 'example',
       test: 'test',

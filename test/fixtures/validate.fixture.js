@@ -9,4 +9,12 @@ module.exports = {
       notValid: true,
     })
   }),
+  name2: prompt('name2', (data) => {
+    if (data === 'cool') {
+      return data
+    }
+    throw Object.assign(new Error('name must be cool'), {
+      notValid: true,
+    })
+  }),
 }
