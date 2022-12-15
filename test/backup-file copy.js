@@ -6,7 +6,7 @@ if (isChild()) {
 }
 
 t.test('backup file', async (t) => {
-  const output = await setup(__filename, ['', '55'])
+  const output = await setup(__filename, ['', '55', 'no'])
 
   t.same(JSON.parse(output), {
     a: 3,
@@ -15,5 +15,6 @@ t.test('backup file', async (t) => {
       x: 55,
       y: '/tmp/y/file.txt',
     },
+    error: 'no',
   })
 })

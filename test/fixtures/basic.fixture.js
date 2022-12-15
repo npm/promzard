@@ -1,25 +1,29 @@
 /* globals prompt, basename */
 
 const fs = require('fs/promises')
+const path = require('path')
 
 module.exports = {
   name: basename.replace(/^node-/, ''),
   version: '0.0.0',
-  description: (function () {
-    let value
-    try {
-      const src = fs.readFileSync('README.markdown', 'utf8')
-      value = src.split('\n')
+  description: async () => {
+    const value = await fs.readFile('README.markdown', 'utf8')
+      .then((src) => src.split('\n')
         .find((l) => /\s+/.test(l) && l.trim() !== basename.replace(/^node-/, ''))
         .trim()
         .replace(/^./, c => c.toLowerCase())
-        .replace(/\.$/, '')
-    } catch {
-      // no value
-    }
+        .replace(/\.$/, ''))
+      .catch(() => null)
     return prompt('description', value)
-  })(),
+  },
   main: prompt('entry point', 'index.js'),
+  resolved: () => {
+    try {
+      return path.basename(require.resolve('../../'))
+    } catch {
+      return 'error'
+    }
+  },
   bin: async function () {
     const exists = await fs.stat('bin/cmd.js')
       .then(() => true)

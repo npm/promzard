@@ -38,10 +38,6 @@
     "version": "4.11.0"
   },
   "tap": {
-    "statements": 93,
-    "branches": 72,
-    "functions": 87,
-    "lines": 94,
     "jobs": 1,
     "test-ignore": "fixtures/",
     "nyc-arg": [

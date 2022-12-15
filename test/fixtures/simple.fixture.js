@@ -7,4 +7,10 @@ module.exports = {
     x: prompt(),
     y: tmpdir + '/y/file.txt',
   },
+  error: prompt('error', (v) => {
+    if (v === 'throw') {
+      throw new Error('this is unexpected')
+    }
+    return v
+  }),
 }

@@ -7,7 +7,7 @@ const CHILD = 'child'
 
 const isChild = () => process.argv[2] === CHILD
 
-const setup = async (file, writes) => {
+const setup = async (file, writes = []) => {
   const proc = spawn(process.execPath, [file, CHILD])
   const entries = Array.isArray(writes) ? writes : Object.entries(writes)
 
