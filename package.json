@@ -2,7 +2,7 @@
   "author": "GitHub Inc.",
   "name": "promzard",
   "description": "prompting wizardly",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": {
     "url": "https://github.com/npm/promzard.git",
     "type": "git"
