@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/npm/promzard/compare/v1.0.1...v1.0.2) (2024-04-21)
+
+### Chores
+
+* [`d2ca128`](https://github.com/npm/promzard/commit/d2ca128d06da5bffff66a80e9c88a55c2f29fb0f) [#77](https://github.com/npm/promzard/pull/77) postinstall for dependabot template-oss PR (@lukekarrys)
+* [`cba412d`](https://github.com/npm/promzard/commit/cba412d02e6b748e3be09dc6ba16fc51bc372688) [#77](https://github.com/npm/promzard/pull/77) bump @npmcli/template-oss from 4.21.3 to 4.21.4 (@dependabot[bot])
+
 ## [1.0.1](https://github.com/npm/promzard/compare/v1.0.0...v1.0.1) (2024-04-01)
 
 ### Dependencies
