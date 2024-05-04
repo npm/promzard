@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.2](https://github.com/npm/promzard/compare/v1.0.1...v1.0.2) (2024-05-04)
+
+### Bug Fixes
+
+* [`1c79729`](https://github.com/npm/promzard/commit/1c797292cf9584e98f7a957463d245add8125a95) [#79](https://github.com/npm/promzard/pull/79) linting: no-console (@lukekarrys)
+
+### Chores
+
+* [`376bde4`](https://github.com/npm/promzard/commit/376bde43e1b74a727607d7372722e84ec79a33ba) [#79](https://github.com/npm/promzard/pull/79) bump @npmcli/template-oss to 4.22.0 (@lukekarrys)
+* [`8bcec44`](https://github.com/npm/promzard/commit/8bcec4442d2916cb120ef1bcb47361dcf1774bfb) [#79](https://github.com/npm/promzard/pull/79) postinstall for dependabot template-oss PR (@lukekarrys)
+* [`cba412d`](https://github.com/npm/promzard/commit/cba412d02e6b748e3be09dc6ba16fc51bc372688) [#77](https://github.com/npm/promzard/pull/77) bump @npmcli/template-oss from 4.21.3 to 4.21.4 (@dependabot[bot])
+
 ## [1.0.1](https://github.com/npm/promzard/compare/v1.0.0...v1.0.1) (2024-04-01)
 
 ### Dependencies
