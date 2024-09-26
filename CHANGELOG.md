@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.0.0](https://github.com/npm/promzard/compare/v1.0.2...v2.0.0) (2024-09-25)
+### ⚠️ BREAKING CHANGES
+* `promzard` now supports node `^18.17.0 || >=20.5.0`
+### Bug Fixes
+* [`d679fa2`](https://github.com/npm/promzard/commit/d679fa22a5771001b22f489bf381e97d5f050351) [#91](https://github.com/npm/promzard/pull/91) align to npm 10 node engine range (@reggi)
+### Dependencies
+* [`c389d6b`](https://github.com/npm/promzard/commit/c389d6bac7ddbe8d01aab36f1a65a3f68fc4369e) [#91](https://github.com/npm/promzard/pull/91) `read@4.0.0`
+### Chores
+* [`df7ffed`](https://github.com/npm/promzard/commit/df7ffedea73d4c6395488517e83910174c943b74) [#91](https://github.com/npm/promzard/pull/91) run template-oss-apply (@reggi)
+* [`9a50db4`](https://github.com/npm/promzard/commit/9a50db4a0f3471dde91bec1d80ad885a41422725) [#89](https://github.com/npm/promzard/pull/89) bump @npmcli/eslint-config from 4.0.5 to 5.0.0 (@dependabot[bot])
+* [`ddb9e70`](https://github.com/npm/promzard/commit/ddb9e709c6ec30e3f3c3d25f712459ddd18b181f) [#90](https://github.com/npm/promzard/pull/90) postinstall for dependabot template-oss PR (@hashtagchris)
+* [`142f948`](https://github.com/npm/promzard/commit/142f948f18bec13a4211e889c0aaabcca3972c48) [#90](https://github.com/npm/promzard/pull/90) bump @npmcli/template-oss from 4.23.1 to 4.23.3 (@dependabot[bot])
+
 ## [1.0.2](https://github.com/npm/promzard/compare/v1.0.1...v1.0.2) (2024-05-04)
 
 ### Bug Fixes
