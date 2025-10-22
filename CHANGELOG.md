@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.0.0](https://github.com/npm/promzard/compare/v2.0.0...v3.0.0) (2025-10-22)
+### ⚠️ BREAKING CHANGES
+* `promzard` now supports node `^20.17.0 || >=22.9.0`
+### Bug Fixes
+* [`8956092`](https://github.com/npm/promzard/commit/8956092e16abee697736a290deaa3f0cab642130) [#102](https://github.com/npm/promzard/pull/102) align to npm 11 node engine range (#102) (@owlstronaut)
+### Chores
+* [`0b423cb`](https://github.com/npm/promzard/commit/0b423cbfd72ce5554846be750cdaf50fd204168b) [#95](https://github.com/npm/promzard/pull/95) postinstall workflow updates (#95) (@owlstronaut)
+* [`0975976`](https://github.com/npm/promzard/commit/0975976cc0f3851c270a76257ee2155a35480342) [#101](https://github.com/npm/promzard/pull/101) bump @npmcli/template-oss from 4.26.0 to 4.27.1 (#101) (@dependabot[bot], @npm-cli-bot)
+
 ## [2.0.0](https://github.com/npm/promzard/compare/v1.0.2...v2.0.0) (2024-09-25)
 ### ⚠️ BREAKING CHANGES
 * `promzard` now supports node `^18.17.0 || >=20.5.0`
