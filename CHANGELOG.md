@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.0.1](https://github.com/npm/promzard/compare/v3.0.0...v3.0.1) (2025-10-23)
+### Dependencies
+* [`824b325`](https://github.com/npm/promzard/commit/824b3259843eca668b52c435e5ecb5cd61f64c74) [#104](https://github.com/npm/promzard/pull/104) bump read from 4.1.0 to 5.0.0 (#104) (@dependabot[bot])
+
 ## [3.0.0](https://github.com/npm/promzard/compare/v2.0.0...v3.0.0) (2025-10-22)
 ### ⚠️ BREAKING CHANGES
 * `promzard` now supports node `^20.17.0 || >=22.9.0`
