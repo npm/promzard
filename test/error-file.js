@@ -1,10 +1,11 @@
-const t = require('tap')
+const { test } = require('node:test')
+const assert = require('node:assert')
 const { setup, child, isChild } = require('./fixtures/setup')
 
 if (isChild()) {
   return child('file does not exist')
 }
 
-t.test('backup file', async (t) => {
-  t.match(await setup(__filename), 'ENOENT')
+test('backup file', async () => {
+  assert.match(await setup(__filename), /ENOENT/)
 })

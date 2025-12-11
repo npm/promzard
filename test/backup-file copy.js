@@ -1,18 +1,19 @@
-const t = require('tap')
+const { test } = require('node:test')
+const assert = require('node:assert')
 const { setup, child, isChild, getFixture } = require('./fixtures/setup')
 
 if (isChild()) {
   return child('file does not exist', { tmpdir: '/tmp' }, { backupFile: getFixture('simple') })
 }
 
-t.test('backup file', async (t) => {
+test('backup file', async () => {
   const output = await setup(__filename, ['', '55', 'no'])
 
-  t.same(JSON.parse(output), {
+  assert.deepStrictEqual(JSON.parse(output), {
     a: 3,
     b: '!2b',
     c: {
-      x: 55,
+      x: '55',
       y: '/tmp/y/file.txt',
     },
     error: 'no',

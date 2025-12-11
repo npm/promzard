@@ -1,18 +1,19 @@
-const t = require('tap')
+const { test } = require('node:test')
+const assert = require('node:assert')
 const { setup, child, isChild } = require('./fixtures/setup')
 
 if (isChild()) {
   return child(__filename, { tmpdir: '/tmp' })
 }
 
-t.test('exports', async (t) => {
+test('exports', async () => {
   const output = await setup(__filename, ['', '55'])
 
-  t.same(JSON.parse(output), {
+  assert.deepStrictEqual(JSON.parse(output), {
     a: 3,
     b: '!2b',
     c: {
-      x: 55,
+      x: '55',
       y: '/tmp/y/file.txt',
     },
   })

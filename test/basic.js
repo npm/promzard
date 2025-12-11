@@ -1,18 +1,19 @@
-const t = require('tap')
+const { test } = require('node:test')
+const assert = require('node:assert')
 const { setup, child, isChild } = require('./fixtures/setup')
 
 if (isChild()) {
   return child(__filename, { basename: 'node-example' })
 }
 
-t.test('run the example', async (t) => {
+test('run the example', async () => {
   const output = await setup(__filename, [
     'testing description',
     'test-entry.js',
     'fugazi function waiting room',
   ])
 
-  t.same(JSON.parse(output), {
+  assert.deepStrictEqual(JSON.parse(output), {
     name: 'example',
     version: '0.0.0',
     description: 'testing description',

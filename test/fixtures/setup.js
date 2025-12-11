@@ -33,7 +33,7 @@ const setup = async (file, writes = []) => {
   return output
 }
 
-const getFixture = (f) => path.join(__dirname, path.basename(f, '.js') + '.fixture.js')
+const getFixture = (f) => path.join(__dirname, path.basename(f, '.js') + '.fixture.cjs')
 
 async function child (f, ctx, options) {
   const output = await promzard(getFixture(f), ctx, options)
