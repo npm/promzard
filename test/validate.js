@@ -1,12 +1,12 @@
-
-const t = require('tap')
+const { test } = require('node:test')
+const assert = require('node:assert')
 const { setup, child, isChild } = require('./fixtures/setup')
 
 if (isChild()) {
   return child(__filename)
 }
 
-t.test('validate', async (t) => {
+test('validate', async () => {
   const output = await setup(__filename, [
     [/name: $/, 'not cool'],
     [/name: $/, 'cool'],
@@ -14,5 +14,5 @@ t.test('validate', async (t) => {
     [/name2: $/, 'cool'],
   ])
 
-  t.same(JSON.parse(output), { name: 'cool', name2: 'cool' })
+  assert.deepStrictEqual(JSON.parse(output), { name: 'cool', name2: 'cool' })
 })
