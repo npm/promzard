@@ -1,5 +1,20 @@
 # Changelog
 
+## [4.0.0](https://github.com/npm/promzard/compare/v3.0.1...v4.0.0) (2026-05-18)
+### ⚠️ BREAKING CHANGES
+* `promzard` now supports node `^22.22.2 || ^24.15.0 || >=26.0.0`
+* template-oss-apply
+### Features
+* [`167f1c6`](https://github.com/npm/promzard/commit/167f1c66311978684887650d8b5fe01c6286dbc0) [#118](https://github.com/npm/promzard/pull/118) bump to new node engine range (@owlstronaut)
+* [`11776e9`](https://github.com/npm/promzard/commit/11776e9b7a1f978c20f18c2beab437702f0c9b7a) [#118](https://github.com/npm/promzard/pull/118) template-oss-apply (@owlstronaut)
+### Dependencies
+* [`bbc45ed`](https://github.com/npm/promzard/commit/bbc45ed18cc183b05456bb1fef8eaa62a78d8a77) [#118](https://github.com/npm/promzard/pull/118) `read@6.0.0`
+### Chores
+* [`6b7666a`](https://github.com/npm/promzard/commit/6b7666a208ac509eb7135d87b527247b7bc64714) [#118](https://github.com/npm/promzard/pull/118) template-oss-apply (@owlstronaut)
+* [`e9d148a`](https://github.com/npm/promzard/commit/e9d148afe8a1b6513c227b06ec13e384a43be4dc) [#118](https://github.com/npm/promzard/pull/118) bumping @npmcli/template-oss from 4.30.0 to 5.1.0 (@owlstronaut)
+* [`6a978c4`](https://github.com/npm/promzard/commit/6a978c4da36a538d6ad530e151d7bd2df8088d79) [#106](https://github.com/npm/promzard/pull/106) bump @npmcli/eslint-config from 5.1.0 to 6.0.0 (#106) (@dependabot[bot])
+* [`24ff44f`](https://github.com/npm/promzard/commit/24ff44f79ca44b0d96ecb0bb126f8f82337eab2f) [#115](https://github.com/npm/promzard/pull/115) bump @npmcli/template-oss from 4.29.0 to 4.30.0 (#115) (@dependabot[bot], @npm-cli-bot)
+
 ## [3.0.1](https://github.com/npm/promzard/compare/v3.0.0...v3.0.1) (2025-10-23)
 ### Dependencies
 * [`824b325`](https://github.com/npm/promzard/commit/824b3259843eca668b52c435e5ecb5cd61f64c74) [#104](https://github.com/npm/promzard/pull/104) bump read from 4.1.0 to 5.0.0 (#104) (@dependabot[bot])
